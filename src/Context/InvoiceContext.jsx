@@ -1,19 +1,24 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useEffect} from "react";
+
+
 
 export const InvoiceContext = createContext();
 
-const generateId = () => Math.random().toString(36).substr(2, 9);
+const generateId = () => Math.random().toString(36).sub(2, 9);
 
 export const initalState = {
-  company: {
-    name: 'Tech Solutions Inc.',
-    address: '456 Tech Lane, Silicon Valley, CA 90210',
+  company :JSON.parse(localStorage.getItem("company"))||{
+    name: '',
+    address: '',
+    phone:'',
   },
+  
   customer: {
-    name: 'Customer Name',
-    address: '123 Customer St, City, State, Zip',
-    email: 'customer@example.com',
+    name: '',
+    address: '',
+    email: '',
   },
+  invoiceNumber: '',
   invoiceDate: new Date().toISOString().split('T')[0], // YYYY-MM-DD
   status: 'Unpaid', // New field for invoice status
   items: [
@@ -26,8 +31,8 @@ export const invoiceReducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_CUSTOMER_DETAIL':
       return { ...state, customer: { ...state.customer, [action.field]: action.value } };
-    case 'UPDATE_COMPANY_DETAIL':
-      return { ...state, company: { ...state.company, [action.field]: action.value } };
+    case 'SAVE_COMPANY_DETAIL':
+      return { ...state, company:  action.payload } ;
     case 'UPDATE_INVOICE_DATE':
       return { ...state, invoiceDate: action.value };
     case 'UPDATE_STATUS': // New action to update status
@@ -53,6 +58,11 @@ export const InvoiceProvider = ({ children }) => {
     const grandTotal = subtotal + taxAmount;
     return { subtotal, taxAmount, grandTotal };
   };
+
+  //save to localstorage
+  useEffect(()=>{
+    localStorage.setItem("companyDetails",JSON.stringify(state.company));
+  },[state.company]);
 
   const totals = calculateTotals(state.items, state.taxRate);
 

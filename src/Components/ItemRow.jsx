@@ -1,5 +1,5 @@
 import React from 'react';
-import { useInvoice } from '../context/InvoiceContext';
+import { useInvoice } from '../Context/InvoiceContext';
 
 const ItemRow = ({ item }) => {
   const { dispatch } = useInvoice();

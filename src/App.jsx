@@ -1,15 +1,36 @@
 import React from 'react';
-import { InvoiceProvider } from './Context/InvoiceContext';
-import InvoicePage from './Pages/InvoicePage.jsx';
 
-function App() {
+import CompanyInfo from './Pages/companyInfo';
+import InvoiceHeader from './Components/InvoiceHeader';
+import { InvoiceProvider } from './Context/InvoiceContext';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import Layout from './Layout/Layout';
+import InvoiceEditor from './Pages/InvoiceEditor';
+import InvoicePage from './Pages/InvoicePage';
+const App = () => {
   return (
-    <InvoiceProvider>
-      <div className="App">
-        <InvoicePage />
+    <>
+    
+    <BrowserRouter>
+    <Layout />
+    <div>
+    <Routes>
+      <Route path="/" element={<InvoiceEditor />} />
+      
+      <Route path="/company" element={<CompanyInfo />} />
+      <Route path="/invoice-Page" element={<InvoicePage />} />
+      <Route path="/invoice-Edit" element={<InvoiceEditor />} />
+
+
+      </Routes>
       </div>
-    </InvoiceProvider>
+    </BrowserRouter>
+   
+
+    </>
   );
-}
+};
 
 export default App;
+  
+ 
