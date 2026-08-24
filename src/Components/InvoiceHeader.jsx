@@ -1,5 +1,5 @@
 
-import { useInvoice } from "../context/InvoiceContext";
+import { useInvoice } from "../Context/InvoiceContext";
 
 export default function InvoiceHeader() {
   const { state } =useInvoice();
