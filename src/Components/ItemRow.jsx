@@ -1,41 +1,84 @@
-import React from 'react';
-import { useInvoice } from '../Context/InvoiceContext';
+import React from "react";
+import { useInvoice } from "../Context/InvoiceContext";
 
 const ItemRow = ({ item }) => {
   const { dispatch } = useInvoice();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Convert numeric inputs from string values to floats
-    const parsedValue = (name === 'description') ? value : parseFloat(value) || 0; 
 
     dispatch({
-      type: 'UPDATE_ITEM',
-      payload: { 
-        id: item.id, 
-        field: name, 
-        value: parsedValue,
+      type: "UPDATE_ITEM",
+      payload: {
+        id: item.id,
+        field: name,
+        value:
+          name === "description"
+            ? value
+            : Number(value) || 0,
       },
     });
   };
 
   return (
-    <tr>
-      {/* Input for Product Name/Description */}
-      <td><input type="text" name="description" value={item.description} onChange={handleChange} /></td>
-      
-      {/* Input for Quantity */}
-      <td><input type="number" name="quantity" value={item.quantity} onChange={handleChange} min="1" /></td>
-      
-      {/* Input for Price */}
-      <td><input type="number" name="price" value={item.price} onChange={handleChange} step="0.01" /></td>
-      
-      {/* Auto-calculated line total (read-only) */}
-      <td>{(item.quantity * item.price).toFixed(2)}</td>
-      
-      {/* Delete button */}
-      <td><button onClick={() => dispatch({ type: 'DELETE_ITEM', payload: { id: item.id } })}>Delete</button></td>
+    <tr className="border-t">
+
+      <td className="p-3">
+        <input
+          type="text"
+          name="description"
+          value={item.description}
+          onChange={handleChange}
+          placeholder="Item description"
+          className="w-full px-3 py-2 border rounded-lg"
+        />
+      </td>
+
+      <td className="p-3">
+        <input
+          type="number"
+          name="quantity"
+          min="1"
+          value={item.quantity}
+          onChange={handleChange}
+          className="w-24 px-3 py-2 border rounded-lg"
+        />
+      </td>
+
+      <td className="p-3">
+        <input
+          type="number"
+          name="price"
+          min="0"
+          step="0.01"
+          value={item.price}
+          onChange={handleChange}
+          className="w-32 px-3 py-2 border rounded-lg"
+        />
+      </td>
+
+      <td className="p-3 font-semibold">
+        $
+        {(
+          Number(item.quantity) *
+          Number(item.price)
+        ).toFixed(2)}
+      </td>
+
+      <td className="p-3 text-center">
+        <button
+          onClick={() =>
+            dispatch({
+              type: "DELETE_ITEM",
+              payload: { id: item.id },
+            })
+          }
+          className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+        >
+          Delete
+        </button>
+      </td>
+
     </tr>
   );
 };

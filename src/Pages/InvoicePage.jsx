@@ -1,21 +1,12 @@
-import React from 'react';
-import InvoiceEditor from './InvoiceEditor';
-import { exportInvoiceToPDF } from '../Utils/PdfGenerator';
+import React from "react";
+import InvoiceEditor from "../Components/InvoiceEditor";
 
 const InvoicePage = () => {
   return (
-    <div style={{ maxWidth: '800px', margin: '20px auto' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 style={{ color: '#333' }}>Invoice Generator</h1>
-        
-        
-        <button onClick={exportInvoiceToPDF} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', cursor: 'pointer' }}>
-          Export to PDF
-        </button>
-      </header>
-      <main>
-        <InvoiceEditor /> 
-      </main>
+    <div className="min-h-screen bg-slate-100 py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        <InvoiceEditor />
+      </div>
     </div>
   );
 };
